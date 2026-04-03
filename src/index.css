@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* A nice dark theme background for Glowing Flowers */
+body {
+  background-color: #1a1a1a;
+  color: #f3f4f6;
+  font-family: sans-serif;
+}

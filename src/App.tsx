@@ -1,21 +1,62 @@
-import { useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { AppProvider } from "./AppContext";
+import Catalog from "./components/Catalog";
+import Cart from "./components/Cart";
+import CustomOrder from "./components/CustomOrder";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App: React.FC = () => {
   return (
-    <main className="flex flex-col items-center gap-8 py-16 max-w-[1280px] mx-auto">
-      <h1 className="text-4xl font-bold">Hello React & Tailwind!</h1>
-      <div className="flex flex-row items-center gap-6">
-        <button
-          className="bg-sky-300 px-3 py-2 rounded hover:bg-sky-400"
-          onClick={() => setCount(count + 1)}
-        >
-          Count: {count}
-        </button>
-      </div>
-    </main>
+    <AppProvider>
+      <Router>
+        <header>
+          <h1>Glowing Flowers</h1>
+          <nav className="flex flex-row items-center justify-evenly">
+            <Link className="text-pink-300 hover:text-green-300 text-sm" to="/">
+              Catalog
+            </Link>
+            <Link
+              className="text-pink-300 hover:text-green-300 text-sm"
+              to="/custom"
+            >
+              Custom Orders
+            </Link>
+            <Link
+              className="text-pink-300 hover:text-green-300 text-sm"
+              to="/events"
+            >
+              Book an Event
+            </Link>
+            <Link
+              className="text-pink-300 hover:text-green-300 text-sm"
+              to="/cart"
+            >
+              My Shopping Cart
+            </Link>
+            <Link
+              className="text-pink-300 hover:text-green-300 text-sm"
+              to="/login"
+            >
+              Login / Sign Up
+            </Link>
+          </nav>
+        </header>
+
+        <main>
+          <Routes>
+            <Route path="/" element={<Catalog />} />
+            <Route path="/custom" element={<CustomOrder />} />
+            <Route
+              path="/events"
+              element={<div>Event Booking Form goes here</div>}
+            />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/login" element={<div>Login Page goes here</div>} />
+          </Routes>
+        </main>
+      </Router>
+    </AppProvider>
   );
-}
+};
 
 export default App;

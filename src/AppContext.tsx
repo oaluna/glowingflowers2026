@@ -1,6 +1,8 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+import { auth, db } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
-// 1. Define the "blueprints" (Interfaces) for our data
 export interface Arrangement {
   id: number;
   name: string;
@@ -10,37 +12,65 @@ export interface Arrangement {
 
 export interface User {
   uid: string;
-  email: string;
+  email: string | null;
 }
 
-// 2. Define what our Context will hold
 interface AppContextType {
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   cart: Arrangement[];
   addToCart: (item: Arrangement) => void;
+  logout: () => void;
 }
 
-// 3. Create the context (can be undefined initially)
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
-// Define the props for our Provider component
-interface AppProviderProps {
-  children: ReactNode;
-}
-
-export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  // We tell useState exactly what type of data it is holding
+export const AppProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [cart, setCart] = useState<Arrangement[]>([]);
 
-  const addToCart = (item: Arrangement) => {
-    setCart((prevCart) => [...prevCart, item]);
-    console.log(`${item.name} added to cart!`);
+  // 1. Listen for user login/logout automatically
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        setUser({ uid: currentUser.uid, email: currentUser.email });
+
+        // Fetch their saved cart from Firestore Database
+        const cartRef = doc(db, "carts", currentUser.uid);
+        const cartSnap = await getDoc(cartRef);
+
+        if (cartSnap.exists()) {
+          setCart(cartSnap.data().items || []);
+        }
+      } else {
+        setUser(null);
+        setCart([]); // Clear cart if they log out
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
+
+  // 2. Add to cart AND save to database if logged in
+  const addToCart = async (item: Arrangement) => {
+    const newCart = [...cart, item];
+    setCart(newCart);
+    alert(`${item.name} added to cart!`);
+
+    if (user) {
+      // Save it to Firestore under the user's specific ID
+      const cartRef = doc(db, "carts", user.uid);
+      await setDoc(cartRef, { items: newCart });
+    }
+  };
+
+  const logout = () => {
+    auth.signOut();
   };
 
   return (
-    <AppContext.Provider value={{ user, setUser, cart, addToCart }}>
+    <AppContext.Provider value={{ user, cart, addToCart, logout }}>
       {children}
     </AppContext.Provider>
   );

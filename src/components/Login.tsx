@@ -11,23 +11,21 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // Used to redirect the user after login
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
       if (isLogin) {
-        // Real Firebase Login
         await signInWithEmailAndPassword(auth, email, password);
         alert("Welcome back to Glowing Flowers!");
       } else {
-        // Real Firebase Sign Up
         await createUserWithEmailAndPassword(auth, email, password);
         alert("Account created successfully!");
       }
-      navigate("/"); // Send them back to the catalog after success
+      navigate("/");
     } catch (err: any) {
       console.error("Auth Error:", err.message);
       setError("Failed to authenticate. Please check your credentials.");
@@ -35,25 +33,31 @@ const Login: React.FC = () => {
   };
 
   const inputStyles =
-    "w-full p-3 mt-1 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-pink-500";
+    "w-full p-3 mt-2 bg-transparent text-brandEarth border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandRose focus:border-transparent transition-all font-sans";
+  const labelStyles =
+    "text-xs font-bold font-sans uppercase tracking-widest text-brandEarth/70";
 
   return (
-    <div className="max-w-md mx-auto p-8 mt-16 bg-gray-900 rounded-xl shadow-2xl border border-gray-800">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500">
-          {isLogin ? "Welcome Back" : "Join Glowing Flowers"}
+    <div className="max-w-md mx-auto p-8 mt-16 mb-20 bg-white rounded-2xl shadow-sm border border-stone-100 animate-fade-in-up">
+      <div className="text-center mb-10">
+        <h2 className="text-4xl text-brandEarth mb-3">
+          {isLogin ? "Welcome Back" : "Join Us"}
         </h2>
+        <p className="text-brandEarth/60 italic">
+          {isLogin
+            ? "Sign in to access your saved cart."
+            : "Create an account for a curated experience."}
+        </p>
       </div>
 
-      {/* Show error messages if they fail to log in */}
       {error && (
-        <div className="mb-4 text-red-400 text-sm font-semibold text-center">
+        <div className="mb-6 p-3 bg-red-50 border border-red-200 text-red-600 text-sm font-sans rounded-lg text-center">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        <label className="text-sm font-semibold text-gray-300">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <label className={labelStyles}>
           Email Address
           <input
             type="email"
@@ -64,7 +68,7 @@ const Login: React.FC = () => {
           />
         </label>
 
-        <label className="text-sm font-semibold text-gray-300">
+        <label className={labelStyles}>
           Password
           <input
             type="password"
@@ -77,16 +81,16 @@ const Login: React.FC = () => {
 
         <button
           type="submit"
-          className="mt-6 w-full py-3 bg-pink-600 text-white font-bold rounded-lg hover:bg-pink-500 transition-colors"
+          className="mt-2 w-full py-4 bg-brandEarth text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full hover:bg-brandRose transition-colors shadow-md"
         >
           {isLogin ? "Log In" : "Sign Up"}
         </button>
       </form>
 
-      <div className="mt-6 text-center">
+      <div className="mt-8 text-center border-t border-stone-100 pt-6">
         <button
           onClick={() => setIsLogin(!isLogin)}
-          className="text-gray-400 hover:text-pink-400 text-sm font-medium transition-colors"
+          className="text-brandEarth/60 hover:text-brandRose font-sans text-xs font-bold tracking-widest uppercase transition-colors"
         >
           {isLogin
             ? "Don't have an account? Sign Up"

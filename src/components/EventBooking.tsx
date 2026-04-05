@@ -23,19 +23,14 @@ const EventBooking: React.FC = () => {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Event Booking Request:", formData);
     alert(
       `Thank you, ${formData.name}! We will contact you about your ${formData.eventType} shortly.`
     );
-
     setFormData({
       name: "",
       email: "",
@@ -45,23 +40,24 @@ const EventBooking: React.FC = () => {
     });
   };
 
-  // A reusable variable for our input styling to keep code clean
+  // The new, sophisticated input styling!
   const inputStyles =
-    "w-full p-2 mt-1 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all";
+    "w-full p-3 mt-2 bg-transparent text-brandEarth border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandRose focus:border-transparent transition-all font-sans";
+  const labelStyles =
+    "text-xs font-bold font-sans uppercase tracking-widest text-brandEarth/70";
 
   return (
-    <div className="max-w-xl mx-auto p-6 mt-10 bg-gray-900 rounded-lg shadow-xl border border-gray-800">
-      <h2 className="text-3xl font-bold text-pink-400 mb-2">
-        Book Glowing Flowers
-      </h2>
-      <p className="text-gray-400 mb-6">
-        Fill out the form below, and we will get in touch to discuss your
-        vision!
-      </p>
+    <div className="max-w-xl mx-auto p-8 mt-12 mb-20 bg-white rounded-2xl shadow-sm border border-stone-100 animate-fade-in-up">
+      <div className="text-center mb-10">
+        <h2 className="text-4xl text-brandEarth mb-3">Book an Event</h2>
+        <p className="text-brandEarth/60 italic">
+          Let us bring your vision to life.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        <label className="text-sm font-semibold text-gray-300">
-          Name:
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <label className={labelStyles}>
+          Name
           <input
             type="text"
             name="name"
@@ -72,8 +68,8 @@ const EventBooking: React.FC = () => {
           />
         </label>
 
-        <label className="text-sm font-semibold text-gray-300">
-          Email:
+        <label className={labelStyles}>
+          Email Address
           <input
             type="email"
             name="email"
@@ -84,8 +80,8 @@ const EventBooking: React.FC = () => {
           />
         </label>
 
-        <label className="text-sm font-semibold text-gray-300">
-          Event Date:
+        <label className={labelStyles}>
+          Event Date
           <input
             type="date"
             name="eventDate"
@@ -96,8 +92,8 @@ const EventBooking: React.FC = () => {
           />
         </label>
 
-        <label className="text-sm font-semibold text-gray-300">
-          Event Type:
+        <label className={labelStyles}>
+          Event Type
           <select
             name="eventType"
             value={formData.eventType}
@@ -111,22 +107,22 @@ const EventBooking: React.FC = () => {
           </select>
         </label>
 
-        <label className="text-sm font-semibold text-gray-300">
-          Additional Details:
+        <label className={labelStyles}>
+          Additional Details
           <textarea
             name="details"
             value={formData.details}
             onChange={handleChange}
             rows={4}
             required
-            placeholder="Tell us about your theme, favorite flowers, or budget..."
+            placeholder="Themes, favorite flowers, budget..."
             className={inputStyles}
           />
         </label>
 
         <button
           type="submit"
-          className="mt-4 px-4 py-3 bg-pink-600 text-white font-bold rounded hover:bg-pink-500 focus:outline-none focus:ring-4 focus:ring-pink-500 focus:ring-opacity-50 transition-colors"
+          className="mt-4 px-6 py-4 bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full hover:bg-brandEarth transition-colors shadow-md"
         >
           Submit Request
         </button>

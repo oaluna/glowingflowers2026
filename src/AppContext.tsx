@@ -8,6 +8,7 @@ export interface Arrangement {
   name: string;
   price: number;
   desc: string;
+  imageUrl: string; // We've added this new property!
 }
 
 export interface User {
@@ -19,6 +20,8 @@ interface AppContextType {
   user: User | null;
   cart: Arrangement[];
   addToCart: (item: Arrangement) => void;
+  removeFromCart: (index: number) => void;
+  clearCart: () => void;
   logout: () => void;
 }
 
@@ -52,6 +55,26 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     return () => unsubscribe(); // Cleanup listener
   }, []);
 
+  const clearCart = async () => {
+    setCart([]);
+    if (user) {
+      const cartRef = doc(db, "carts", user.uid);
+      await setDoc(cartRef, { items: [] });
+    }
+  };
+
+  const removeFromCart = async (indexToRemove: number) => {
+    // Create a new array that filters out the item at that specific index
+    const newCart = cart.filter((_, index) => index !== indexToRemove);
+    setCart(newCart);
+
+    // Sync the change to Firebase if the user is logged in
+    if (user) {
+      const cartRef = doc(db, "carts", user.uid);
+      await setDoc(cartRef, { items: newCart });
+    }
+  };
+
   // 2. Add to cart AND save to database if logged in
   const addToCart = async (item: Arrangement) => {
     const newCart = [...cart, item];
@@ -70,7 +93,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <AppContext.Provider value={{ user, cart, addToCart, logout }}>
+    <AppContext.Provider
+      value={{ user, cart, addToCart, removeFromCart, clearCart, logout }}
+    >
       {children}
     </AppContext.Provider>
   );

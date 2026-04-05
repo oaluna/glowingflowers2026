@@ -1,38 +1,46 @@
 import React, { useContext } from "react";
 import { AppContext, Arrangement } from "../AppContext";
+import { FiPlus } from "react-icons/fi";
 
-// Dummy data for your arrangements
+// We've updated our data to include the beautiful stock images!
 const arrangements: Arrangement[] = [
   {
     id: 1,
     name: "Spring Sunshine",
     price: 45.0,
     desc: "Bright yellow and orange blooms radiating warmth and joy.",
+    imageUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtqhFGTPw11k-lkqfyhPF9Ck89Yrd6M4GXCF5NF2GLn-AWDnkBZS-DPmbbpkmx",
   },
   {
     id: 2,
     name: "Midnight Romance",
     price: 65.0,
     desc: "Deep red roses with dark accents and lush greenery.",
+    imageUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM1Q1RkDCnThKiOOxr0Xrkstsftn7TvocHcWfk2wVcRH-NojgPvOpafhRjWiiP",
   },
   {
     id: 3,
     name: "Pastel Dream",
     price: 50.0,
     desc: "Soft pinks, purples, and whites perfect for a gentle touch.",
+    imageUrl:
+      "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQwRk5icLJqsH_x6LnW6nhWRwuQVX_1lNXksy0VyusWG5D9AMcV5THIJ2_o1Nlx",
   },
   {
     id: 4,
     name: "Neon Orchid",
     price: 55.0,
-    desc: "Vibrant exotic orchids that practically glow in the dark.",
+    desc: "Vibrant exotic orchids that command attention.",
+    imageUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWDrQbRf_QKv4xCcHe96CFb28E7bySDTNmXrghws20RG8Tm6tEL9jQBm3RCqlB",
   },
 ];
 
 const Catalog: React.FC = () => {
   const context = useContext(AppContext);
 
-  // TypeScript safety check
   if (!context) {
     throw new Error("Catalog must be used within an AppProvider");
   }
@@ -40,42 +48,51 @@ const Catalog: React.FC = () => {
   const { addToCart } = context;
 
   return (
-    <div className="max-w-6xl mx-auto p-6 mt-8">
-      <div className="text-center mb-10">
-        <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500">
+    <div className="max-w-6xl mx-auto p-6 mt-12 mb-20">
+      <div className="text-center mb-16 opacity-0 animate-fade-in-up">
+        <h2 className="text-5xl font-normal text-brandEarth tracking-wide mb-4">
           Our Arrangements
         </h2>
-        <p className="text-gray-400 mt-3">
-          Handcrafted with love. Ready to brighten your day.
+        <div className="w-16 h-0.5 bg-brandRose mx-auto mb-6"></div>
+        <p className="text-brandEarth/70 text-lg italic">
+          Handcrafted with love. Rooted in nature.
         </p>
       </div>
 
-      {/* Tailwind Grid: 1 column on mobile, 2 on tablets, 3 on large screens */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {arrangements.map((item) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {arrangements.map((item, index) => (
           <div
             key={item.id}
-            className="bg-gray-800 border border-gray-700 rounded-xl p-6 flex flex-col shadow-lg hover:shadow-pink-500/20 hover:border-pink-500 transition-all duration-300"
+            style={{ animationDelay: `${index * 150}ms` }}
+            className="bg-white rounded-2xl p-8 flex flex-col shadow-sm border border-stone-100 opacity-0 animate-fade-in-up hover:-translate-y-2 hover:shadow-xl hover:shadow-brandRose/10 transition-all duration-500 ease-in-out"
           >
-            {/* Optional: You can add an <img> tag here later for flower pictures */}
-            <div className="h-40 bg-gray-700 rounded-lg mb-4 flex items-center justify-center text-gray-500">
-              [Image Placeholder]
+            {/* The new image implementation! */}
+            <div className="h-56 w-full mb-6 rounded-xl overflow-hidden bg-stone-50">
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+              />
             </div>
 
-            <h3 className="text-2xl font-bold text-white mb-2">{item.name}</h3>
+            <h3 className="text-2xl font-bold text-brandEarth mb-3">
+              {item.name}
+            </h3>
 
-            {/* flex-grow ensures the button is always pushed to the bottom if descriptions vary in length */}
-            <p className="text-gray-400 text-sm flex-grow mb-6">{item.desc}</p>
+            <p className="text-brandEarth/80 font-sans text-sm leading-relaxed flex-grow mb-8">
+              {item.desc}
+            </p>
 
-            <div className="flex justify-between items-center mt-auto border-t border-gray-700 pt-4">
-              <span className="text-2xl font-bold text-pink-300">
+            <div className="flex justify-between items-center mt-auto border-t border-stone-100 pt-6">
+              <span className="text-2xl font-semibold text-brandSage">
                 ${item.price.toFixed(2)}
               </span>
 
               <button
                 onClick={() => addToCart(item)}
-                className="px-5 py-2 bg-pink-600 hover:bg-pink-500 text-white font-semibold rounded-lg shadow-md transition-colors focus:ring-4 focus:ring-pink-500/50 focus:outline-none"
+                className="flex items-center gap-2 px-6 py-2.5 bg-brandRose hover:bg-brandEarth text-white font-sans text-sm tracking-widest uppercase rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brandRose focus:ring-offset-2"
               >
+                <FiPlus className="text-lg" />
                 Add to Cart
               </button>
             </div>

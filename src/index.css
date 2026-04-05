@@ -2,9 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* A nice dark theme background for Glowing Flowers */
+/* Elegant, natural theme for Glowing Flowers */
 body {
-  background-color: #1a1a1a;
-  color: #f3f4f6;
-  font-family: sans-serif;
+  background-color: #faf9f6; /* brandCream */
+  color: #4a403a; /* brandEarth */
+  /* Using a classic serif font for a sophisticated touch */
+  font-family: "Georgia", Cambria, "Times New Roman", Times, serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-family: "venganza-vf", sans-serif;
+  font-variation-settings: "wdth" 75;
 }

@@ -1,73 +1,93 @@
 import React, { useContext } from "react";
 import { AppContext } from "../AppContext";
+import { Link } from "react-router-dom";
+import { FiTrash2, FiArrowLeft } from "react-icons/fi"; // Added Trash and Arrow icons
 
 const Cart: React.FC = () => {
   const context = useContext(AppContext);
+  if (!context) throw new Error("Cart must be used within an AppProvider");
 
-  // TypeScript safety check
-  if (!context) {
-    throw new Error("Cart must be used within an AppProvider");
-  }
+  // Destructure removeFromCart from our context
+  const { cart, removeFromCart } = context;
 
-  const { cart } = context;
-
-  // Calculate the total price using the array 'reduce' method
-  const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.price, 0);
-  };
+  const calculateTotal = () =>
+    cart.reduce((total, item) => total + item.price, 0);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 mt-8">
-      <h2 className="text-3xl font-bold text-pink-400 mb-6 border-b border-gray-700 pb-4">
-        Your Shopping Cart
-      </h2>
+    <div className="max-w-4xl mx-auto p-6 mt-12 mb-20 animate-fade-in-up">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl text-brandEarth mb-4">Your Cart</h2>
+        <div className="w-12 h-0.5 bg-brandSage mx-auto"></div>
+      </div>
 
       {cart.length === 0 ? (
-        <div className="text-center py-12 bg-gray-800 rounded-lg border border-gray-700">
-          <p className="text-gray-400 text-lg mb-4">
-            Your cart is currently empty.
+        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-stone-100">
+          <p className="text-brandEarth/60 text-lg mb-6 italic">
+            Your botanical basket is empty.
           </p>
-          <a
-            href="/"
-            className="text-pink-400 hover:text-pink-300 underline font-semibold"
+          <Link
+            to="/"
+            className="flex items-center justify-center gap-2 font-sans text-sm font-semibold tracking-widest uppercase text-brandRose hover:text-brandEarth transition-colors"
           >
-            Browse our catalog to find something beautiful!
-          </a>
+            <FiArrowLeft />
+            Return to Catalog
+          </Link>
         </div>
       ) : (
-        <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden">
-          {/* Cart Items List */}
-          <ul className="divide-y divide-gray-700">
+        <div className="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
+          <ul className="divide-y divide-stone-100">
             {cart.map((item, index) => (
               <li
                 key={index}
-                className="p-4 flex justify-between items-center hover:bg-gray-750 transition-colors"
+                className="p-6 flex justify-between items-center hover:bg-brandCream/50 transition-colors group"
               >
-                <div>
-                  <h3 className="text-xl font-semibold text-white">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-400">Item #{item.id}</p>
+                <div className="flex items-center gap-4">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className="w-16 h-16 object-cover rounded-lg border border-stone-100"
+                  />
+                  <div>
+                    <h3 className="text-xl font-semibold text-brandEarth">
+                      {item.name}
+                    </h3>
+                    <p className="font-sans text-xs uppercase tracking-widest text-brandEarth/50">
+                      Item #{item.id}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-xl font-bold text-gray-200">
-                  ${item.price.toFixed(2)}
+
+                <div className="flex items-center gap-6">
+                  <div className="text-lg font-semibold text-brandSage">
+                    ${item.price.toFixed(2)}
+                  </div>
+
+                  {/* The Remove Button */}
+                  <button
+                    onClick={() => removeFromCart(index)}
+                    className="p-2 text-stone-300 hover:text-brandRose transition-colors duration-300"
+                    title="Remove item"
+                  >
+                    <FiTrash2 className="text-xl" />
+                  </button>
                 </div>
               </li>
             ))}
           </ul>
 
-          {/* Cart Summary & Checkout */}
-          <div className="bg-gray-900 p-6 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="text-2xl font-bold text-white">
+          <div className="bg-brandCream/30 p-8 border-t border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-6">
+            <div className="text-xl text-brandEarth">
               Total:{" "}
-              <span className="text-pink-400">
+              <span className="font-bold text-brandRose ml-2">
                 ${calculateTotal().toFixed(2)}
               </span>
             </div>
 
-            <button className="w-full sm:w-auto px-8 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-lg shadow-lg transition-colors focus:ring-4 focus:ring-pink-500/50 focus:outline-none">
-              Proceed to Checkout
-            </button>
+            <Link to="/checkout" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto px-10 py-3 bg-brandEarth hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">
+                Checkout securely
+              </button>
+            </Link>
           </div>
         </div>
       )}

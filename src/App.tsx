@@ -2,8 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { AppProvider } from "./AppContext";
 import Catalog from "./components/Catalog";
+import EventBooking from "./components/EventBooking";
 import Cart from "./components/Cart";
 import CustomOrder from "./components/CustomOrder";
+import Login from "./components/Login";
 
 const App: React.FC = () => {
   return (
@@ -46,12 +48,9 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Catalog />} />
             <Route path="/custom" element={<CustomOrder />} />
-            <Route
-              path="/events"
-              element={<div>Event Booking Form goes here</div>}
-            />
+            <Route path="/events" element={<EventBooking />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/login" element={<div>Login Page goes here</div>} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
       </Router>

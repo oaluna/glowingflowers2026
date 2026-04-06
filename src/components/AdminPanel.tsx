@@ -1,0 +1,161 @@
+import React, { useState } from "react";
+import { ref, push, set } from "firebase/database";
+import { rtdb } from "../firebase";
+import { FiPlusCircle, FiCheckCircle } from "react-icons/fi";
+
+const AdminPanel: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    price: "",
+    desc: "",
+    imageUrl: "",
+  });
+  const [status, setStatus] = useState<{
+    type: "idle" | "success" | "error";
+    message: string;
+  }>({
+    type: "idle",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // 1. Point to the 'products' list in the Realtime Database
+      const productsRef = ref(rtdb, "products");
+
+      // 2. Generate a new unique key for the new product
+      const newProductRef = push(productsRef);
+
+      // 3. Save the data to that new key
+      await set(newProductRef, {
+        name: formData.name,
+        price: parseFloat(formData.price), // Convert string input to a number
+        desc: formData.desc,
+        imageUrl: formData.imageUrl,
+      });
+
+      // Show success and clear the form
+      setStatus({
+        type: "success",
+        message: `${formData.name} added to catalog!`,
+      });
+      setFormData({ name: "", price: "", desc: "", imageUrl: "" });
+
+      // Clear the success message after 3 seconds
+      setTimeout(() => setStatus({ type: "idle", message: "" }), 3000);
+    } catch (error) {
+      console.error("Error adding product:", error);
+      setStatus({
+        type: "error",
+        message: "Failed to add product. Try again.",
+      });
+    }
+  };
+
+  // Reusing our sophisticated styling
+  const inputStyles =
+    "w-full p-3 mt-2 bg-transparent text-brandEarth border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brandRose transition-all font-sans tracking-wide";
+  const labelStyles =
+    "text-xs font-bold font-sans uppercase tracking-widest text-brandEarth/70";
+
+  return (
+    <div className="max-w-2xl mx-auto p-8 mt-12 mb-20 bg-white rounded-2xl shadow-sm border border-stone-100 animate-fade-in-up">
+      <div className="text-center mb-10">
+        <h2 className="text-4xl text-brandEarth mb-3">Store Admin</h2>
+        <p className="text-brandEarth/60 italic">
+          Add a new arrangement to your catalog.
+        </p>
+      </div>
+
+      {status.type === "success" && (
+        <div className="mb-6 p-4 bg-brandSage/20 text-brandSage flex items-center gap-2 rounded-lg font-sans text-sm font-bold tracking-wide">
+          <FiCheckCircle className="text-lg" />
+          {status.message}
+        </div>
+      )}
+
+      {status.type === "error" && (
+        <div className="mb-6 p-4 bg-red-50 text-red-600 flex items-center gap-2 rounded-lg font-sans text-sm font-bold tracking-wide">
+          {status.message}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <div className="flex flex-col sm:flex-row gap-6">
+          <label className={`${labelStyles} flex-1`}>
+            Arrangement Name
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              placeholder="e.g., Autumn Cascade"
+              className={inputStyles}
+            />
+          </label>
+
+          <label className={`${labelStyles} w-full sm:w-1/3`}>
+            Price ($)
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              required
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+              className={inputStyles}
+            />
+          </label>
+        </div>
+
+        <label className={labelStyles}>
+          Image URL
+          <input
+            type="url"
+            name="imageUrl"
+            value={formData.imageUrl}
+            onChange={handleChange}
+            required
+            placeholder="https://..."
+            className={inputStyles}
+          />
+        </label>
+
+        <label className={labelStyles}>
+          Description
+          <textarea
+            name="desc"
+            value={formData.desc}
+            onChange={handleChange}
+            required
+            rows={3}
+            placeholder="Describe the blooms, colors, and mood..."
+            className={inputStyles}
+          />
+        </label>
+
+        <button
+          type="submit"
+          className="mt-4 flex items-center justify-center gap-2 py-4 bg-brandEarth text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full hover:bg-brandRose transition-colors shadow-md"
+        >
+          <FiPlusCircle className="text-lg" />
+          Publish to Storefront
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default AdminPanel;

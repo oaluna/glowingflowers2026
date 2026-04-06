@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { AppProvider, AppContext } from "./AppContext";
 import { FiShoppingBag, FiUser, FiLogOut } from "react-icons/fi";
-
+import AdminPanel from "./components/AdminPanel";
 import Catalog from "./components/Catalog";
 import CustomOrder from "./components/CustomOrder";
 import EventBooking from "./components/EventBooking";
@@ -101,6 +101,7 @@ const App: React.FC = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/admin" element={<AdminPanel />} />
             </Routes>
           </main>
 

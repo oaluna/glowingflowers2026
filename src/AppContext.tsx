@@ -1,14 +1,15 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { auth, db } from "./firebase";
+import { auth, rtdb } from "./firebase"; // Import rtdb instead of db
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ref, get, set } from "firebase/database"; // Import Realtime Database functions
 
+// 1. Updated interface to use string IDs for the Realtime Database
 export interface Arrangement {
-  id: number;
+  id: string;
   name: string;
   price: number;
   desc: string;
-  imageUrl: string; // We've added this new property!
+  imageUrl: string;
 }
 
 export interface User {
@@ -33,18 +34,19 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [cart, setCart] = useState<Arrangement[]>([]);
 
-  // 1. Listen for user login/logout automatically
+  // 2. Fetch the cart using Realtime Database
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser({ uid: currentUser.uid, email: currentUser.email });
 
-        // Fetch their saved cart from Firestore Database
-        const cartRef = doc(db, "carts", currentUser.uid);
-        const cartSnap = await getDoc(cartRef);
+        // Point to this specific user's cart in the Realtime Database
+        const cartRef = ref(rtdb, `carts/${currentUser.uid}`);
+        const snapshot = await get(cartRef);
 
-        if (cartSnap.exists()) {
-          setCart(cartSnap.data().items || []);
+        if (snapshot.exists()) {
+          // .val() extracts the JSON data from the snapshot
+          setCart(snapshot.val().items || []);
         }
       } else {
         setUser(null);
@@ -52,39 +54,35 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       }
     });
 
-    return () => unsubscribe(); // Cleanup listener
+    return () => unsubscribe();
   }, []);
 
-  const clearCart = async () => {
-    setCart([]);
+  // 3. Save the cart using Realtime Database's set() function
+  const addToCart = async (item: Arrangement) => {
+    const newCart = [...cart, item];
+    setCart(newCart);
+
     if (user) {
-      const cartRef = doc(db, "carts", user.uid);
-      await setDoc(cartRef, { items: [] });
+      const cartRef = ref(rtdb, `carts/${user.uid}`);
+      await set(cartRef, { items: newCart });
     }
   };
 
   const removeFromCart = async (indexToRemove: number) => {
-    // Create a new array that filters out the item at that specific index
     const newCart = cart.filter((_, index) => index !== indexToRemove);
     setCart(newCart);
 
-    // Sync the change to Firebase if the user is logged in
     if (user) {
-      const cartRef = doc(db, "carts", user.uid);
-      await setDoc(cartRef, { items: newCart });
+      const cartRef = ref(rtdb, `carts/${user.uid}`);
+      await set(cartRef, { items: newCart });
     }
   };
 
-  // 2. Add to cart AND save to database if logged in
-  const addToCart = async (item: Arrangement) => {
-    const newCart = [...cart, item];
-    setCart(newCart);
-    alert(`${item.name} added to cart!`);
-
+  const clearCart = async () => {
+    setCart([]);
     if (user) {
-      // Save it to Firestore under the user's specific ID
-      const cartRef = doc(db, "carts", user.uid);
-      await setDoc(cartRef, { items: newCart });
+      const cartRef = ref(rtdb, `carts/${user.uid}`);
+      await set(cartRef, { items: [] });
     }
   };
 

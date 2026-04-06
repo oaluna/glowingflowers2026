@@ -10,6 +10,7 @@ import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyC8NmJMIkLNbVIn8pjWuEYkmgzpTb3vTHk",
   authDomain: "glowing-flower-dc00b.firebaseapp.com",
+  databaseURL: "https://glowingflowers-f2d30-default-rtdb.firebaseio.com",
   projectId: "glowing-flower-dc00b",
   storageBucket: "glowing-flower-dc00b.firebasestorage.app",
   messagingSenderId: "549979508222",

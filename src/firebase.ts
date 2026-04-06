@@ -1,6 +1,8 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+// 1. Import Firestore
+import { getFirestore } from "firebase/firestore";
+// You can keep the Realtime Database import if you still want to use it for the cart!
 import { getDatabase } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -10,7 +12,7 @@ import { getDatabase } from "firebase/database";
 const firebaseConfig = {
   apiKey: "AIzaSyC8NmJMIkLNbVIn8pjWuEYkmgzpTb3vTHk",
   authDomain: "glowing-flower-dc00b.firebaseapp.com",
-  databaseURL: "https://glowingflowers-f2d30-default-rtdb.firebaseio.com",
+  databaseURL: "https://glowing-flower-dc00b-default-rtdb.firebaseio.com",
   projectId: "glowing-flower-dc00b",
   storageBucket: "glowing-flower-dc00b.firebasestorage.app",
   messagingSenderId: "549979508222",
@@ -18,9 +20,9 @@ const firebaseConfig = {
   measurementId: "G-6ZWY9975JX",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export Authentication and Database so we can use them in our components
 export const auth = getAuth(app);
 export const rtdb = getDatabase(app);
+// 2. Export Firestore as 'db'
+export const db = getFirestore(app);

@@ -1,0 +1,76 @@
+{
+  "products": [
+    {
+      "Category": "Anytime & Any Occasion",
+      "Item Name": "Cosmopolitan Bouquet",
+      "Price": 69.0,
+      "Description": "A mix seasonal bloom wrapped stylist wrapped."
+    },
+    {
+      "Category": "Anytime & Any Occasion",
+      "Item Name": "City Centerpiece",
+      "Price": 55.0,
+      "Description": "An arrangement for the centerpiece table."
+    },
+    {
+      "Category": "Anytime & Any Occasion",
+      "Item Name": "Metropolitan",
+      "Price": 79.0,
+      "Description": "A minimalist art design for home decor arrange in unique ceramic vase."
+    },
+    {
+      "Category": "Anytime & Any Occasion",
+      "Item Name": "Miniature Succulent Garden Pot",
+      "Price": 45.0,
+      "Description": "Small succulent arrangement in a pot."
+    },
+    {
+      "Category": "Special Made to Order",
+      "Item Name": "The Art of Bouquet",
+      "Price": 225.0,
+      "Description": "Custom luxury arrangement (Please give 24hrs notice)."
+    },
+    {
+      "Category": "Special Made to Order",
+      "Item Name": "Bali Tropical Dance",
+      "Price": 175.0,
+      "Description": "Tropical themed floral arrangement (Please give 24hrs notice)."
+    },
+    {
+      "Category": "Special Made to Order",
+      "Item Name": "Your Favorite Choices of Bloom",
+      "Price": 275.0,
+      "Description": "A classic and chic arrangement in one of one: Rose, Lily, Tulips, Sunflowers, Anemone, Orchids, Peonies, Lisianthus."
+    },
+    {
+      "Category": "Featured",
+      "Item Name": "Blushing Peony Bouquet",
+      "Price": 140.0,
+      "Description": "Stunning arrangement of fresh peonies."
+    },
+    {
+      "Category": "Featured",
+      "Item Name": "Gift Box Arrangement",
+      "Price": 125.0,
+      "Description": "Elegantly boxed floral gift."
+    },
+    {
+      "Category": "Featured",
+      "Item Name": "Classic Rose Centerpiece",
+      "Price": 40.0,
+      "Description": "Traditional rose arrangement."
+    },
+    {
+      "Category": "New Arrangements",
+      "Item Name": "Ikeabana",
+      "Price": 99.99,
+      "Description": "Japanese-inspired floral design."
+    },
+    {
+      "Category": "New Arrangements",
+      "Item Name": "Contemporary",
+      "Price": 99.99,
+      "Description": "Contemporary floral arrangement."
+    }
+  ]
+}

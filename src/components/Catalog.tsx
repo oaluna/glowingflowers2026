@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext, Arrangement } from "../AppContext";
-// 1. Import from 'firebase/database' instead of 'firestore'
-import { ref, get } from "firebase/database";
-import { rtdb } from "../firebase";
+// 1. Swap the imports back to Firestore
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 import { FiPlus } from "react-icons/fi";
 
 const Catalog: React.FC = () => {
@@ -16,23 +16,14 @@ const Catalog: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // 2. Point directly to the 'products' node in the Realtime Database
-        const productsRef = ref(rtdb, "products");
-        const snapshot = await get(productsRef);
+        // 2. Fetch all documents from the 'products' collection in Firestore
+        const querySnapshot = await getDocs(collection(db, "products"));
+        const productsList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Arrangement[];
 
-        if (snapshot.exists()) {
-          const data = snapshot.val();
-
-          // 3. Convert the JSON object into an array for React to map over
-          const productsList = Object.keys(data).map((key) => ({
-            id: key, // This will be "item1", "item2", etc.
-            ...data[key],
-          })) as Arrangement[];
-
-          setArrangements(productsList);
-        } else {
-          console.log("No arrangements found.");
-        }
+        setArrangements(productsList);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {

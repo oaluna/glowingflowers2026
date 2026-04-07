@@ -5,6 +5,7 @@
 /* Elegant, natural theme for Glowing Flowers */
 body {
   background-color: #faf9f6; /* brandCream */
+  background-image: url("../assets/background.png");
   color: #4a403a; /* brandEarth */
   /* Using a classic serif font for a sophisticated touch */
   font-family: "Georgia", Cambria, "Times New Roman", Times, serif;

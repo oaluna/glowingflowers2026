@@ -9,6 +9,7 @@ import EventBooking from "./components/EventBooking";
 import Cart from "./components/Cart";
 import Login from "./components/Login";
 import Checkout from "./components/Checkout";
+import Background from "./assets/background.png";
 
 const Navigation: React.FC = () => {
   const context = useContext(AppContext);
@@ -94,6 +95,11 @@ const App: React.FC = () => {
         <div className="min-h-screen bg-brandCream text-brandEarth flex flex-col">
           <Navigation />
           <main className="flex-grow">
+            <img
+              src={Background}
+              alt="background"
+              className="w-screen h-screen fixed scroll-none object-cover opacity-30"
+            />
             <Routes>
               <Route path="/" element={<Catalog />} />
               <Route path="/custom" element={<CustomOrder />} />

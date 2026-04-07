@@ -10,6 +10,7 @@ import Cart from "./components/Cart";
 import Login from "./components/Login";
 import Checkout from "./components/Checkout";
 import Background from "./assets/background.png";
+import Logo from "./assets/logo.png"
 
 const Navigation: React.FC = () => {
   const context = useContext(AppContext);
@@ -23,9 +24,9 @@ const Navigation: React.FC = () => {
       <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center gap-6">
         <Link
           to="/"
-          className="text-3xl font-bold text-brandEarth tracking-wide hover:opacity-80 transition-opacity"
+          className="text-md font-bold text-brandEarth tracking-wide hover:opacity-80 transition-opacity"
         >
-          Glowing Flowers
+          <img src={Logo} alt="glowing-flowers" className="w-64"/>
         </Link>
 
         <nav className="flex flex-wrap justify-between items-center gap-8 font-sans text-xs tracking-widest uppercase text-brandEarth/80 font-semibold">

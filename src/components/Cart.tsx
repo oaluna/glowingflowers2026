@@ -74,7 +74,8 @@ const Cart: React.FC = () => {
               </li>
             ))}
           </ul>
-
+<button onClick={() => removeFromCart(cart.length - 1)}
+className="bg-brandRose hover:bg-brandEarth text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">-</button>
           <div className="bg-brandCream/30 p-8 border-t border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-6">
             <div className="text-xl text-brandEarth">
               Total:{" "}
@@ -82,6 +83,8 @@ const Cart: React.FC = () => {
                 ${calculateTotal().toFixed(2)}
               </span>
             </div>
+            <button onClick={() => addToCart(item)}
+             className="w-full sm:w-auto px-10 py-3 bg-brandEarth hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">
 
             <Link to="/checkout" className="w-full sm:w-auto">
               <button className="w-full sm:w-auto px-10 py-3 bg-brandEarth hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">

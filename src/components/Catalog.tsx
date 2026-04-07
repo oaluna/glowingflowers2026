@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext, Arrangement } from "../AppContext";
-// 1. Swap the imports back to Firestore
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { ref, get } from "firebase/database";
+import { rtdb } from "../firebase";
 import { FiPlus } from "react-icons/fi";
 
 const Catalog: React.FC = () => {
@@ -16,14 +15,21 @@ const Catalog: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // 2. Fetch all documents from the 'products' collection in Firestore
-        const querySnapshot = await getDocs(collection(db, "products"));
-        const productsList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Arrangement[];
+        const productsRef = ref(rtdb, "products");
+        const snapshot = await get(productsRef);
 
-        setArrangements(productsList);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+
+          const productsList = Object.keys(data).map((key) => ({
+            id: key,
+            ...data[key],
+          })) as Arrangement[];
+
+          setArrangements(productsList);
+        } else {
+          console.log("No arrangements found in database.");
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -58,18 +64,12 @@ const Catalog: React.FC = () => {
             style={{ animationDelay: `${index * 150}ms` }}
             className="bg-white rounded-2xl p-8 flex flex-col shadow-sm border border-stone-100 opacity-0 animate-fade-in-up hover:-translate-y-2 transition-all duration-500 ease-in-out group"
           >
-            <div className="h-56 w-full mb-6 rounded-xl overflow-hidden bg-stone-50">
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
+            <div className="h-56 w-full mb-6 rounded-xl overflow-hidden bg-stone-50"></div>
             <h3 className="text-2xl font-bold text-brandEarth mb-3">
               {item.name}
             </h3>
             <p className="text-brandEarth/80 font-sans text-sm leading-relaxed flex-grow mb-8">
-              {item.desc}
+              {item.description}
             </p>
             <div className="flex justify-between items-center mt-auto border-t border-stone-100 pt-6">
               <span className="text-2xl font-semibold text-brandSage">

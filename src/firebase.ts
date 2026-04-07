@@ -1,14 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// 1. Import Firestore
-import { getFirestore } from "firebase/firestore";
-// You can keep the Realtime Database import if you still want to use it for the cart!
 import { getDatabase } from "firebase/database";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Replace these placeholders with your actual Firebase config keys from your console
 const firebaseConfig = {
   apiKey: "AIzaSyC8NmJMIkLNbVIn8pjWuEYkmgzpTb3vTHk",
   authDomain: "glowing-flower-dc00b.firebaseapp.com",
@@ -20,9 +14,11 @@ const firebaseConfig = {
   measurementId: "G-6ZWY9975JX",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Export Authentication and Realtime Database
 export const auth = getAuth(app);
 export const rtdb = getDatabase(app);
-// 2. Export Firestore as 'db'
-export const db = getFirestore(app);
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional

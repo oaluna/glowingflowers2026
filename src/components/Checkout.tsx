@@ -90,7 +90,7 @@ const Checkout: React.FC = () => {
                 <div className="flex items-center gap-4">
                   {/* Miniature thumbnail of the arrangement */}
                   <img
-                    src={item.imageUrl}
+                    src={item.category}
                     alt={item.name}
                     className="w-12 h-12 object-cover rounded-md border border-stone-200"
                   />

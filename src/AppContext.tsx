@@ -1,15 +1,14 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { auth, rtdb } from "./firebase"; // Import rtdb instead of db
+import { auth, rtdb } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { ref, get, set } from "firebase/database"; // Import Realtime Database functions
+import { ref, get, set } from "firebase/database";
 
-// 1. Updated interface to use string IDs for the Realtime Database
 export interface Arrangement {
   id: string;
   name: string;
   price: number;
-  desc: string;
-  imageUrl: string;
+  description: string;
+  category: string;
 }
 
 export interface User {
@@ -34,30 +33,27 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [cart, setCart] = useState<Arrangement[]>([]);
 
-  // 2. Fetch the cart using Realtime Database
+  // Listen for user login/logout and fetch their saved cart
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser({ uid: currentUser.uid, email: currentUser.email });
 
-        // Point to this specific user's cart in the Realtime Database
         const cartRef = ref(rtdb, `carts/${currentUser.uid}`);
         const snapshot = await get(cartRef);
 
         if (snapshot.exists()) {
-          // .val() extracts the JSON data from the snapshot
           setCart(snapshot.val().items || []);
         }
       } else {
         setUser(null);
-        setCart([]); // Clear cart if they log out
+        setCart([]);
       }
     });
 
     return () => unsubscribe();
   }, []);
 
-  // 3. Save the cart using Realtime Database's set() function
   const addToCart = async (item: Arrangement) => {
     const newCart = [...cart, item];
     setCart(newCart);

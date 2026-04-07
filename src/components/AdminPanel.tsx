@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-// 1. Swap the imports to use Firestore
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { ref, push, set } from "firebase/database";
+import { rtdb } from "../firebase";
 import { FiPlusCircle, FiCheckCircle } from "react-icons/fi";
 
 const AdminPanel: React.FC = () => {
@@ -9,7 +8,7 @@ const AdminPanel: React.FC = () => {
     name: "",
     price: "",
     description: "",
-    imageUrl: "",
+    category: "",
   });
   const [status, setStatus] = useState<{
     type: "idle" | "success" | "error";
@@ -30,19 +29,24 @@ const AdminPanel: React.FC = () => {
     e.preventDefault();
 
     try {
-      // 2. Use addDoc to save directly into the 'products' collection in Firestore
-      await addDoc(collection(db, "products"), {
+      const productsRef = ref(rtdb, "products");
+
+      // Generate a new unique key for the arrangement
+      const newProductRef = push(productsRef);
+
+      // Save the data to that new key
+      await set(newProductRef, {
         name: formData.name,
         price: parseFloat(formData.price),
         description: formData.description,
-        imageUrl: formData.imageUrl,
+        category: formData.category,
       });
 
       setStatus({
         type: "success",
         message: `${formData.name} added to catalog!`,
       });
-      setFormData({ name: "", price: "", description: "", imageUrl: "" });
+      setFormData({ name: "", price: "", description: "", category: "" });
       setTimeout(() => setStatus({ type: "idle", message: "" }), 3000);
     } catch (error) {
       console.error("Error adding product:", error);
@@ -110,8 +114,8 @@ const AdminPanel: React.FC = () => {
           Image URL
           <input
             type="url"
-            name="imageUrl"
-            value={formData.imageUrl}
+            name="category"
+            value={formData.category}
             onChange={handleChange}
             required
             className={inputStyles}

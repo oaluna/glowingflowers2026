@@ -62,9 +62,16 @@ const Catalog: React.FC = () => {
           <div
             key={item.id}
             style={{ animationDelay: `${index * 150}ms` }}
-            className="bg-white rounded-2xl p-8 flex flex-col shadow-sm border border-stone-100 opacity-0 animate-fade-in-up hover:-translate-y-2 transition-all duration-500 ease-in-out group"
+            className="bg-white rounded-2xl p-8 flex flex-col shadow-sm hover:shadow-lg border border-stone-100 opacity-0 animate-fade-in-up hover:-translate-y-2 transition-all duration-500 ease-in-out group"
           >
-            <div className="h-56 w-full mb-6 rounded-xl overflow-hidden bg-stone-50"></div>
+            <div className="h-64 w-full mb-6 rounded-xl overflow-hidden bg-stone-50">
+              <img
+                src={item.imgUrl}
+                alt={item.name}
+                className="h-full w-full object-cover overflow-x-hidden"
+              />
+            </div>
+
             <h3 className="text-2xl font-bold text-brandEarth mb-3">
               {item.name}
             </h3>
@@ -74,10 +81,10 @@ const Catalog: React.FC = () => {
             <div className="flex justify-between items-center mt-auto border-t border-stone-100 pt-6">
               <span className="text-2xl font-semibold text-brandSage">
                 ${item.price.toFixed(2)}
-              </span>
+              </span>{" "}
               <button
                 onClick={() => addToCart(item)}
-                className="flex items-center gap-2 px-6 py-2.5 bg-brandRose hover:bg-brandEarth text-white font-sans text-sm tracking-widest uppercase rounded-full transition-colors duration-300"
+                className="flex items-center gap-2 px-6 py-2.5 bg-brandRose hover:bg-brandEarth text-white font-sans text-sm uppercase rounded-full transition-colors duration-300"
               >
                 <FiPlus className="text-lg" /> Add to Cart
               </button>

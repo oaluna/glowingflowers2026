@@ -9,6 +9,7 @@ export interface Arrangement {
   price: number;
   description: string;
   category: string;
+  imgUrl: string;
 }
 
 export interface User {

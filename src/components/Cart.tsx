@@ -79,7 +79,7 @@ const Cart: React.FC = () => {
           </ul>
           <div className="flex items-center gap-6">
             <button
-              onClick={() => removeFromCart(cart.length - 1)}
+              onClick={() => removeFromCart(index)}
               className="w-12 h-12 sm:w-auto p-3 bg-transparent text-brandEarth hover:text-brandRose font-sans text-sm font-semibold tracking-widest uppercase rounded-full"
             >
               -

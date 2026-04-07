@@ -8,7 +8,7 @@ const Cart: React.FC = () => {
   if (!context) throw new Error("Cart must be used within an AppProvider");
 
   // Destructure removeFromCart from our context
-  const { cart, removeFromCart } = context;
+  const { cart, addToCart, removeFromCart } = context;
 
   const calculateTotal = () =>
     cart.reduce((total, item) => total + item.price, 0);
@@ -48,16 +48,19 @@ const Cart: React.FC = () => {
                     className="w-16 h-16 object-cover rounded-lg border border-stone-100"
                   />
                   <div>
-                    <h3 className="text-xl font-semibold text-brandEarth">
+                    <h3 className="text-xl w-48 h-24 font-semibold text-brandEarth">
                       {item.name}
                     </h3>
+                    <p id={item.id} className="text-brandSage">
+                      {cart.map((item) => (item.id ? item.id : null))}
+                    </p>
                     <p className="font-sans text-xs uppercase tracking-widest text-brandEarth/50">
                       Item #{item.id}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4">
                   <div className="text-lg font-semibold text-brandSage">
                     ${item.price.toFixed(2)}
                   </div>
@@ -74,20 +77,30 @@ const Cart: React.FC = () => {
               </li>
             ))}
           </ul>
-<button onClick={() => removeFromCart(cart.length - 1)}
-className="bg-brandRose hover:bg-brandEarth text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">-</button>
-          <div className="bg-brandCream/30 p-8 border-t border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-6">
-            <div className="text-xl text-brandEarth">
-              Total:{" "}
-              <span className="font-bold text-brandRose ml-2">
-                ${calculateTotal().toFixed(2)}
-              </span>
+          <div className="flex items-center gap-6">
+            <button
+              onClick={() => removeFromCart(cart.length - 1)}
+              className="w-12 h-12 sm:w-auto p-3 bg-transparent text-brandEarth hover:text-brandRose font-sans text-sm font-semibold tracking-widest uppercase rounded-full"
+            >
+              -
+            </button>
+            <div className="bg-brandCream/30 p-8 border-t border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-6">
+              <div className="text-xl text-brandEarth">
+                Total:{" "}
+                <span className="font-bold text-brandRose ml-2">
+                  ${calculateTotal().toFixed(2)}
+                </span>
+              </div>
+              <button
+                onClick={() => addToCart(item)}
+                className="w-12 h-12 sm:w-auto p-3 bg-transparent text-brandEarth hover:text-brandRose font-sans text-sm font-semibold tracking-widest uppercase rounded-full"
+              >
+                +
+              </button>
             </div>
-            <button onClick={() => addToCart(item)}
-             className="w-full sm:w-auto px-10 py-3 bg-brandEarth hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">
-
+            <br />
             <Link to="/checkout" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-10 py-3 bg-brandEarth hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">
+              <button className="sm:w-auto py-3 bg-brandEarth hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">
                 Checkout securely
               </button>
             </Link>

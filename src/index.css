@@ -1,17 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Ovo&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Elegant, natural theme for Glowing Flowers */
-body {
-  background-color: #faf9f6; /* brandCream */
-  background-image: url("../assets/background.png");
-  color: #4a403a; /* brandEarth */
-  /* Using a classic serif font for a sophisticated touch */
-  font-family: "Georgia", Cambria, "Times New Roman", Times, serif;
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  :root {
+    --background: 30 20% 96%;
+    --foreground: 15 20% 14%;
+    --card: 30 20% 96%;
+    --card-foreground: 15 20% 14%;
+    --popover: 30 20% 96%;
+    --popover-foreground: 15 20% 14%;
+    --primary: 356 62% 70%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 20 25% 92%;
+    --secondary-foreground: 15 20% 14%;
+    --muted: 20 25% 92%;
+    --muted-foreground: 15 12% 44%;
+    --accent: 356 62% 70%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 20 20% 85%;
+    --input: 20 20% 85%;
+    --ring: 356 62% 70%;
+    --radius: 0.625rem;
+    --sidebar-background: 30 20% 96%;
+    --sidebar-foreground: 15 20% 14%;
+    --sidebar-primary: 356 62% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 20 25% 92%;
+    --sidebar-accent-foreground: 15 20% 14%;
+    --sidebar-border: 20 20% 85%;
+    --sidebar-ring: 356 62% 70%;
+  }
 }
 
-h1 {
-  font-family: "Venganza Variable", sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-blush-100 text-espresso font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .pill-image {
+    @apply rounded-pill overflow-hidden;
+  }
+
+  .pill-outline {
+    @apply rounded-pill overflow-hidden border-2 border-espresso/10;
+  }
+
+  .btn-primary {
+    @apply bg-coral text-white px-8 py-3 rounded-full font-sans text-sm font-medium tracking-wide uppercase transition-all duration-300 hover:bg-coral-dark hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-espresso px-8 py-3 rounded-full font-sans text-sm font-medium tracking-wide uppercase border-2 border-espresso/20 transition-all duration-300 hover:border-coral hover:text-coral hover:-translate-y-0.5;
+  }
+
+  .eyebrow {
+    @apply font-sans text-xs font-medium tracking-[0.15em] uppercase text-taupe;
+  }
+
+  .section-padding {
+    @apply px-6 sm:px-8 lg:px-[8vw];
+  }
+
+  .grain-overlay {
+    @apply fixed inset-0 pointer-events-none z-50 opacity-[0.04];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-lift;
+  }
+
+  .product-card {
+    @apply cursor-pointer;
+  }
+
+  .product-card .quick-add {
+    @apply opacity-0 translate-y-2 transition-all duration-300;
+  }
+
+  .product-card:hover .quick-add {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .product-card:hover .pill-outline {
+    @apply border-coral/50;
+  }
+}
+
+@layer utilities {
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-600 {
+    animation-delay: 600ms;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f6f3f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e57f84;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d15a60;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(229, 127, 132, 0.3);
+  color: #2b1f1b;
 }

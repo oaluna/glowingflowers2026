@@ -8,7 +8,7 @@ const Cart: React.FC = () => {
   if (!context) throw new Error("Cart must be used within an AppProvider");
 
   // Destructure removeFromCart from our context
-  const { cart, addToCart, removeFromCart } = context;
+  const { cart, removeFromCart } = context;
 
   const calculateTotal = () =>
     cart.reduce((total, item) => total + item.price, 0);
@@ -78,12 +78,6 @@ const Cart: React.FC = () => {
             ))}
           </ul>
           <div className="flex items-center gap-6">
-            <button
-              onClick={() => removeFromCart(index)}
-              className="w-12 h-12 sm:w-auto p-3 bg-transparent text-brandEarth hover:text-brandRose font-sans text-sm font-semibold tracking-widest uppercase rounded-full"
-            >
-              -
-            </button>
             <div className="bg-brandCream/30 p-8 border-t border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-6">
               <div className="text-xl text-brandEarth">
                 Total:{" "}
@@ -91,12 +85,6 @@ const Cart: React.FC = () => {
                   ${calculateTotal().toFixed(2)}
                 </span>
               </div>
-              <button
-                onClick={() => addToCart(item)}
-                className="w-12 h-12 sm:w-auto p-3 bg-transparent text-brandEarth hover:text-brandRose font-sans text-sm font-semibold tracking-widest uppercase rounded-full"
-              >
-                +
-              </button>
             </div>
             <br />
             <Link to="/checkout" className="w-full sm:w-auto">

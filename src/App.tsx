@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CartProvider } from "./context/CartContext";
+import { AppProvider } from "./AppContext";
 import Navigation from "./sections/Navigation";
 import Hero from "./sections/Hero";
 import CuratedPicks from "./sections/CuratedPicks";
@@ -79,6 +80,7 @@ function App() {
   }, []);
 
   return (
+    <AppProvider>
     <CartProvider>
       <div className="relative min-h-screen bg-blush-100">
         {/* Grain Overlay */}
@@ -103,6 +105,7 @@ function App() {
         <CartPanel />
       </div>
     </CartProvider>
+    </AppProvider>
   );
 }
 

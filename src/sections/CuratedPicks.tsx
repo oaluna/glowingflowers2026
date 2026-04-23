@@ -1,46 +1,69 @@
-import { useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import gsap from "gsap";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { AdvancedImage } from "@cloudinary/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Plus } from "lucide-react";
-import { useCart } from "../context/CartContext";
-import type { Product } from "../types";
+import { AppContext } from "@/AppContext";
+import { ref, get } from "firebase/database";
+import { rtdb } from "@/firebase";
+
+import type {Product} from "@/types"
 
 gsap.registerPlugin(ScrollTrigger);
 
-const curatedProducts: Product[] = [
-  {
-    id: "pink-peony-bunch",
-    name: "Pink Peony Bunch",
-    price: 280000,
-    image: "/images/product_pink_peony.jpg",
-    category: "curated",
-    description: "Hand-selected each morning",
-  },
-  {
-    id: "pastel-tulip-set",
-    name: "Pastel Tulip Set",
-    price: 195000,
-    image: "/images/product_pastel_tulip.jpg",
-    category: "curated",
-    description: "Soft spring colors",
-  },
-  {
-    id: "white-ranunculus",
-    name: "White Ranunculus",
-    price: 240000,
-    image: "/images/product_white_ranunculus.jpg",
-    category: "curated",
-    description: "Delicate and romantic",
-  },
-];
-
 export default function CuratedPicks() {
+  const context = useContext(AppContext);
+  const [curatedProducts, setCuratedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { addToCart } = useCart();
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'dgdnpkfun/glowingflowers.shop'
+    }
+  });
+
+  const CldImage = ({ publicId, alt, className }: { publicId: string; alt: string; className?: string }) => {
+    const myImage = cld.image(publicId);
+    return <AdvancedImage cldImg={myImage} alt={alt} className={className} />;
+  };
+  if (!context) throw new Error("Catalog must be used within an AppProvider");
+  const { addToCart } = context;
 
   useEffect(() => {
+    const fetchCuratedProducts = async () => {
+      try {
+        const productsRef = ref(rtdb, "products");
+        const snapshot = await get(productsRef);
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+
+          const productsList = Object.keys(data).slice(0, 3).map((key) => ({
+            id: key,
+            ...data[key],
+          })) as Product[];
+
+          setCuratedProducts(productsList);
+        } else {
+          console.log("No arrangements found in database.");
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCuratedProducts();
+  }, []);
+
+  useEffect(() => {
+    if (loading || curatedProducts.length === 0) return;
+
     const section = sectionRef.current;
     const header = headerRef.current;
     const cards = cardsRef.current;
@@ -89,15 +112,16 @@ export default function CuratedPicks() {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [loading, curatedProducts.length]);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+
+  if (loading) {
+    return (
+      <div className="text-center mt-20 text-brandEarth/60 italic">
+        Loading beautiful arrangements...
+      </div>
+    );
+  }
 
   return (
     <section
@@ -126,10 +150,9 @@ export default function CuratedPicks() {
             <div key={product.id} className="product-card group">
               <div className="pill-outline aspect-[3/4] mb-6 relative overflow-hidden transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lift group-hover:border-coral/30">
                 <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                src={product.imgUrl}
+                alt={product.name}
+              />
                 {/* Quick Add Button */}
                 <button
                   onClick={() => addToCart(product)}
@@ -144,7 +167,7 @@ export default function CuratedPicks() {
                   {product.name}
                 </h3>
                 <p className="font-sans text-sm text-taupe mb-2">
-                  From {formatPrice(product.price)}
+                {product.price}
                 </p>
               </div>
             </div>

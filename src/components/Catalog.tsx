@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AppContext, Arrangement } from "../AppContext";
+import { AppContext } from "../AppContext";
 import { ref, get } from "firebase/database";
 import { rtdb } from "../firebase";
 import { FiPlus } from "react-icons/fi";
 
+import type { Product } from "../AppContext";
+
 const Catalog: React.FC = () => {
   const context = useContext(AppContext);
-  const [arrangements, setArrangements] = useState<Arrangement[]>([]);
+  const [arrangements, setArrangements] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   if (!context) throw new Error("Catalog must be used within an AppProvider");
@@ -24,7 +26,7 @@ const Catalog: React.FC = () => {
           const productsList = Object.keys(data).map((key) => ({
             id: key,
             ...data[key],
-          })) as Arrangement[];
+          })) as Product[];
 
           setArrangements(productsList);
         } else {

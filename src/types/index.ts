@@ -2,13 +2,29 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  image: string;
+  description: string;
   category: string;
-  description?: string;
+  imgUrl: string;
 }
 
 export interface CartItem extends Product {
   quantity: number;
+}
+
+
+export interface User {
+  uid: string;
+  email: string | null;
+}
+
+export interface AppContextType {
+  user: User | null;
+  product: Product[];
+  cart: Product[];
+  addToCart: (item: Product) => void;
+  removeFromCart: (index: number) => void;
+  clearCart: () => void;
+  logout: () => void;
 }
 
 export interface CartContextType {
@@ -25,8 +41,3 @@ export interface CartContextType {
 
 export type BouquetSize = "small" | "medium" | "large";
 export type BouquetPalette = "blush" | "peach" | "cream" | "mixed";
-
-export interface BouquetConfig {
-  size: BouquetSize;
-  palette: BouquetPalette;
-}

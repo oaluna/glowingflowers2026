@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import type { Product, CartItem, CartContextType } from "./types";
+import type { Product, CartItem, CartContextType } from "@/types";
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 

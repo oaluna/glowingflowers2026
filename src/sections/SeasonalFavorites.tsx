@@ -148,7 +148,7 @@ export default function SeasonalFavorites() {
             >
               <div className="pill-outline aspect-[3/4] mb-4 relative overflow-hidden transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lift group-hover:border-coral/30">
                 <img
-                  src={product.image}
+                  src={product.imgUrl}
                   alt={product.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />

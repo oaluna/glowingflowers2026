@@ -11,7 +11,7 @@ const firebaseConfig = {
   storageBucket: "glowing-flower-dc00b.firebasestorage.app",
   messagingSenderId: "549979508222",
   appId: "1:549979508222:web:2a9baf7fbaaa2538cb44af",
-  measurementId: "G-6ZWY9975JX",
+  measurementId: "G-6ZWY9975JX"
 };
 
 // Initialize Firebase

@@ -1,5 +1,5 @@
 import { X, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "@/context/CartContext";
 
 export default function CartPanel() {
   const {
@@ -12,13 +12,7 @@ export default function CartPanel() {
     setIsCartOpen,
   } = useCart();
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+
 
   return (
     <>
@@ -84,7 +78,7 @@ export default function CartPanel() {
                     {/* Image */}
                     <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
                       <img
-                        src={item.image}
+                        src={item.imgUrl}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />
@@ -96,7 +90,7 @@ export default function CartPanel() {
                         {item.name}
                       </h3>
                       <p className="font-sans text-sm text-taupe mb-2">
-                        {formatPrice(item.price)}
+                        {item.price}
                       </p>
 
                       {/* Quantity Controls */}
@@ -144,7 +138,7 @@ export default function CartPanel() {
               <div className="flex items-center justify-between mb-4">
                 <span className="font-sans text-taupe">Subtotal</span>
                 <span className="font-serif text-xl text-espresso">
-                  {formatPrice(totalPrice)}
+                  {totalPrice}
                 </span>
               </div>
               <p className="font-sans text-xs text-taupe mb-4">

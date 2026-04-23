@@ -1,7 +1,5 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import gsap from "gsap";
-import { Cloudinary } from "@cloudinary/url-gen";
-import { AdvancedImage } from "@cloudinary/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Plus } from "lucide-react";
 import { AppContext } from "@/AppContext";
@@ -20,16 +18,7 @@ export default function CuratedPicks() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: 'dgdnpkfun/glowingflowers.shop'
-    }
-  });
 
-  const CldImage = ({ publicId, alt, className }: { publicId: string; alt: string; className?: string }) => {
-    const myImage = cld.image(publicId);
-    return <AdvancedImage cldImg={myImage} alt={alt} className={className} />;
-  };
   if (!context) throw new Error("Catalog must be used within an AppProvider");
   const { addToCart } = context;
 

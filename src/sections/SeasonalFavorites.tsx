@@ -1,62 +1,54 @@
-import { useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Plus } from "lucide-react";
-import { useCart } from "../context/CartContext";
-import type { Product } from "../types";
+import { AppContext } from "@/AppContext";
+import { ref, get } from "firebase/database";
+import { rtdb } from "@/firebase";
+
+import type {Product} from "@/types"
 
 gsap.registerPlugin(ScrollTrigger);
 
-const seasonalProducts: Product[] = [
-  {
-    id: "sunlit-garden",
-    name: "Sunlit Garden",
-    price: 350000,
-    image: "/images/seasonal_sunlit_garden.jpg",
-    category: "seasonal",
-  },
-  {
-    id: "blush-cloud",
-    name: "Blush Cloud",
-    price: 420000,
-    image: "/images/seasonal_blush_cloud.jpg",
-    category: "seasonal",
-  },
-  {
-    id: "coral-charm",
-    name: "Coral Charm",
-    price: 380000,
-    image: "/images/seasonal_coral_charm.jpg",
-    category: "seasonal",
-  },
-  {
-    id: "lemon-leaf-trio",
-    name: "Lemon Leaf Trio",
-    price: 260000,
-    image: "/images/seasonal_lemon_leaf.jpg",
-    category: "seasonal",
-  },
-  {
-    id: "daisy-day",
-    name: "Daisy Day",
-    price: 220000,
-    image: "/images/seasonal_daisy_day.jpg",
-    category: "seasonal",
-  },
-  {
-    id: "rose-eucalyptus",
-    name: "Rose & Eucalyptus",
-    price: 450000,
-    image: "/images/seasonal_rose_eucalyptus.jpg",
-    category: "seasonal",
-  },
-];
-
 export default function SeasonalFavorites() {
+  const [ loading, setLoading ] = useState(true);
+
+  const context = useContext(AppContext);
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const { addToCart } = useCart();
+  const [seasonalProducts, setSeasonalProducts] =  useState<Product[]>([]);
+
+  if (!context) throw new Error("Catalog must be used within an AppProvider");
+  const { addToCart } = context;
+
+  useEffect(() => {
+      const fetchSeasonalProducts = async () => {
+        try {
+          const productsRef = ref(rtdb, "products");
+          const snapshot = await get(productsRef);
+  
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+  
+            const productsList = Object.keys(data).slice(0, 3).map((key) => ({
+              id: key,
+              ...data[key],
+            })) as Product[];
+  
+            setSeasonalProducts(productsList);
+          } else {
+            console.log("No arrangements found in database.");
+          }
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchSeasonalProducts();
+    }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -107,13 +99,13 @@ export default function SeasonalFavorites() {
     return () => ctx.revert();
   }, []);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(price);
-  };
+   if (loading) {
+    return (
+      <div className="text-center mt-20 text-brandEarth/60 italic">
+        Loading beautiful arrangements...
+      </div>
+    );
+  }
 
   return (
     <section
@@ -166,7 +158,7 @@ export default function SeasonalFavorites() {
                   {product.name}
                 </h3>
                 <p className="font-sans text-sm text-taupe">
-                  {formatPrice(product.price)}
+                  {product.price}
                 </p>
               </div>
             </div>

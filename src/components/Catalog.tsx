@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../AppContext";
+import { AppContext } from "@/AppContext";
 import { ref, get } from "firebase/database";
-import { rtdb } from "../firebase";
+import { rtdb } from "@/firebase";
 import { FiPlus } from "react-icons/fi";
 
-import type { Product } from "../AppContext";
+import type { Product } from "@/types";
 
 const Catalog: React.FC = () => {
   const context = useContext(AppContext);

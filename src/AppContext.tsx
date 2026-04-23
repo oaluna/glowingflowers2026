@@ -13,7 +13,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [product, setProduct] = useState<Product[]>([]);
+ 
   const [cart, setCart] = useState<Product[]>([]);
 
   // Listen for user login/logout and fetch their saved cart
@@ -71,7 +71,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AppContext.Provider
-      value={{ user, product, cart, addToCart, removeFromCart, clearCart, logout }}
+      value={{ user, cart, addToCart, removeFromCart, clearCart, logout }}
     >
       {children}
     </AppContext.Provider>

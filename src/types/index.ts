@@ -19,7 +19,6 @@ export interface User {
 
 export interface AppContextType {
   user: User | null;
-  product: Product[];
   cart: Product[];
   addToCart: (item: Product) => void;
   removeFromCart: (index: number) => void;

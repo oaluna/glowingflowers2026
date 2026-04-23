@@ -6,7 +6,7 @@ import { AppProvider } from "./AppContext";
 import Navigation from "./sections/Navigation";
 import Hero from "./sections/Hero";
 import CuratedPicks from "./sections/CuratedPicks";
-import BuildBouquet from "./sections/BuildBouquet";
+//import BuildBouquet from "./sections/BuildBouquet";
 import HowItWorks from "./sections/HowItWorks";
 import CollectionSpotlight from "./sections/CollectionSpotlight";
 import SeasonalFavorites from "./sections/SeasonalFavorites";
@@ -93,7 +93,7 @@ function App() {
         <main>
           <Hero />
           <CuratedPicks />
-          <BuildBouquet />
+          {/* <BuildBouquet /> */}
           <HowItWorks />
           <CollectionSpotlight />
           <SeasonalFavorites />

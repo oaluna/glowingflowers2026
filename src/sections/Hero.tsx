@@ -130,7 +130,7 @@ export default function Hero() {
         {/* Left Floating Pill */}
         <div
           ref={leftPillRef}
-          className="absolute left-[6vw] lg:left-[12vw] top-1/2 -translate-y-1/2 w-[24vw] lg:w-[22vw] h-[56vh] lg:h-[72vh] z-10"
+          className="absolute left-[16vw] lg:left-[6vw] top-1/2 -translate-y-1/2 w-[24vw] lg:w-[22vw] h-[56vh] lg:h-[72vh] z-10"
         >
           <div className="pill-image w-full h-full shadow-pill">
             <img
@@ -158,7 +158,7 @@ export default function Hero() {
         {/* Right Floating Pill */}
         <div
           ref={rightPillRef}
-          className="absolute right-[6vw] lg:right-[12vw] top-1/2 -translate-y-1/2 w-[24vw] lg:w-[22vw] h-[56vh] lg:h-[72vh] z-10"
+          className="absolute right-[16vw] lg:right-[6vw] top-1/2 -translate-y-1/2 w-[24vw] lg:w-[22vw] h-[56vh] lg:h-[72vh] z-10"
         >
           <div className="pill-image w-full h-full shadow-pill">
             <img
@@ -178,10 +178,13 @@ export default function Hero() {
             src={logo}
             className="w-72 h-auto mx-auto lg:w-full lg:p-12 lg:h-auto object-contain mb-4 lg:mb-6 bg-transparent"
           />
-          <p className="font-sans font-black text-base lg:text-4xl text-taupe-300 max-w-md mx-auto leading-relaxed">
-            Fresh, seasonal blooms delivered in Hanoi—arranged like a love
-            letter.
+          <h2 className="font-sans font-black text-base lg:text-4xl text-taupe-300 max-w-md mx-auto leading-relaxed">
+            Botanical Artistry, Delivered Across the Bay.
+          </h2>
+          <p className="font-sans font-medium lg:max-w-full lg:p-12 lg:h-auto object-contain mb-4 lg:mb-6 bg-transparent">
+            From intimate moments to grand events, Glowing Flowers brings San Francisco’s freshest, most vibrant blooms directly to your door.
           </p>
+
         </div>
 
         {/* CTA */}

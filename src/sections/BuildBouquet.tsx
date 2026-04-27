@@ -177,7 +177,7 @@
 //               <div>
 //                 <span className="font-sans text-sm text-taupe">From</span>
 //                 <p className="font-serif text-2xl text-espresso">
-//                   {currentPrice}
+//                   $ {currentPrice}
 //                 </p>
 //               </div>
 //               <button onClick={() => addToCart(price)} className="btn-primary">

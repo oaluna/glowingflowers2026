@@ -82,7 +82,7 @@ const Catalog: React.FC = () => {
             </p>
             <div className="flex justify-between items-center mt-auto border-t border-stone-100 pt-6">
               <span className="text-2xl font-semibold text-brandSage">
-                ${item.price.toFixed(2)}
+                ${item.price}
               </span>{" "}
               <button
                 onClick={() => addToCart(item)}

@@ -1,17 +1,10 @@
 import { useEffect } from "react";
 import gsap from "gsap";
+import AppRoutes from "./AppRoutes";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CartProvider } from "./context/CartContext";
 import { AppProvider } from "./AppContext";
 import Navigation from "./sections/Navigation";
-import Hero from "./sections/Hero";
-import CuratedPicks from "./sections/CuratedPicks";
-//import BuildBouquet from "./sections/BuildBouquet";
-import HowItWorks from "./sections/HowItWorks";
-import CollectionSpotlight from "./sections/CollectionSpotlight";
-import SeasonalFavorites from "./sections/SeasonalFavorites";
-import Gifting from "./sections/Gifting";
-import Footer from "./sections/Footer";
 import CartPanel from "./sections/CartPanel";
 import "./App.css";
 
@@ -22,6 +15,8 @@ interface PinnedRange {
   end: number;
   center: number;
 }
+
+
 
 function App() {
   useEffect(() => {
@@ -90,16 +85,8 @@ function App() {
         <Navigation />
 
         {/* Main Content */}
-        <main>
-          <Hero />
-          <CuratedPicks />
-          {/* <BuildBouquet /> */}
-          <HowItWorks />
-          <CollectionSpotlight />
-          <SeasonalFavorites />
-          <Gifting />
-          <Footer />
-        </main>
+   <AppRoutes/>
+        
 
         {/* Cart Panel */}
         <CartPanel />

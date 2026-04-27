@@ -120,7 +120,7 @@ export default function SeasonalFavorites() {
             Seasonal Favorites
           </h2>
           <p className="font-sans text-taupe leading-relaxed max-w-md mx-auto">
-            What Hanoi is ordering this week.
+            What our customers are ordering this week.
           </p>
         </div>
 
@@ -158,7 +158,7 @@ export default function SeasonalFavorites() {
                   {product.name}
                 </h3>
                 <p className="font-sans text-sm text-taupe">
-                  {product.price}
+                  $ {product.price}
                 </p>
               </div>
             </div>

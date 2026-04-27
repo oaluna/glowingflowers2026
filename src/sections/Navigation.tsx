@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Search, ShoppingBag, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import logo from "../assets/logo.png";
 
@@ -17,11 +18,11 @@ export default function Navigation() {
   }, []);
 
   const navLinks = [
-    { name: "Shop", href: "#curated-picks" },
-    { name: "Collections", href: "#collection-spotlight" },
-    { name: "Build", href: "#build-bouquet" },
-    { name: "Delivery", href: "#how-it-works" },
-    { name: "About", href: "#gifting" },
+    { name: "Shop", href: "/catalog" },
+    { name: "Booking", href: "/event-booking" },
+    { name: "Build", href: "/custom-order" },
+    { name: "Custom Order", href: "/custom-order" },
+    { name: "Sign In", href: "/login" },
   ];
 
   return (
@@ -35,26 +36,26 @@ export default function Navigation() {
       >
         <div className="section-padding flex items-center justify-between">
           {/* Logo */}
-          <a
-            href="#"
+          <Link
+            to="/"
             className="font-serif text-2xl text-espresso tracking-tight"
           >
             <img
               src={logo}
               className="w-64 h-auto object-contain bg-transparent"
             />
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-10">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className="font-sans text-sm text-espresso/80 hover:text-coral transition-colors duration-300"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </div>
 

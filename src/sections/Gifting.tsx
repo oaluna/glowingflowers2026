@@ -15,13 +15,13 @@ const addOns = [
   {
     id: "vase",
     name: "Matte ceramic vase",
-    price: 120000,
+    price: 12,
     icon: Wine,
   },
   {
     id: "macaron",
     name: "Macaron box (4 pcs)",
-    price: 85000,
+    price: 15,
     icon: Cookie,
   },
 ];
@@ -96,15 +96,6 @@ export default function Gifting() {
     return () => ctx.revert();
   }, []);
 
-  const formatPrice = (price: number) => {
-    if (price === 0) return "Free";
-    return `+${new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-    }).format(price)}`;
-  };
-
   return (
     <section
       ref={sectionRef}
@@ -158,8 +149,8 @@ export default function Gifting() {
                         {addon.name}
                       </span>
                     </div>
-                    <span className="font-sans text-sm text-taupe">
-                      {formatPrice(addon.price)}
+                    <span className="font-sans text-xl font-black text-taupe">
+                      ${addon.price}
                     </span>
                   </div>
                 );

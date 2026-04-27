@@ -156,7 +156,7 @@ export default function CuratedPicks() {
                   {product.name}
                 </h3>
                 <p className="font-sans text-sm text-taupe mb-2">
-                {product.price}
+                ${product.price}
                 </p>
               </div>
             </div>

@@ -1,18 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "@/AppContext";
+import React, { useEffect, useState } from "react";
 import { ref, get } from "firebase/database";
 import { rtdb } from "@/firebase";
 import { FiPlus } from "react-icons/fi";
+import { useCart } from "@/context/CartContext";
 
 import type { Product } from "@/types";
 
 const Catalog: React.FC = () => {
-  const context = useContext(AppContext);
   const [arrangements, setArrangements] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  if (!context) throw new Error("Catalog must be used within an AppProvider");
-  const { addToCart } = context;
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {

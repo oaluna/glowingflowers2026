@@ -1,5 +1,6 @@
 import { X, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { Link } from "react-router-dom";
 
 export default function CartPanel() {
   const {
@@ -90,7 +91,7 @@ export default function CartPanel() {
                         {item.name}
                       </h3>
                       <p className="font-sans text-sm text-taupe mb-2">
-                        {item.price}
+                        ${item.price}
                       </p>
 
                       {/* Quantity Controls */}
@@ -138,15 +139,17 @@ export default function CartPanel() {
               <div className="flex items-center justify-between mb-4">
                 <span className="font-sans text-taupe">Subtotal</span>
                 <span className="font-serif text-xl text-espresso">
-                  {totalPrice}
+                  ${totalPrice.toFixed(2)}
                 </span>
               </div>
               <p className="font-sans text-xs text-taupe mb-4">
                 Shipping calculated at checkout
               </p>
-              <button className="btn-primary w-full">
-                Proceed to Checkout
+             <Link to="/checkout" className="w-full sm:w-auto">
+              <button className="sm:w-auto py-3 btn-primary hover:bg-brandRose text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full shadow-md transition-colors duration-300">
+                Checkout securely
               </button>
+            </Link>
             </div>
           )}
         </div>

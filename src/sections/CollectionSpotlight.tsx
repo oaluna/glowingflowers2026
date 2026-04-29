@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronRight } from "lucide-react";
 
-// 1. Import your context and Firebase database config
-import { AppContext } from "@/AppContext";
+// 1. Import your CartContext and Firebase database config
+import { useCart } from "@/context/CartContext";
 import { ref, get } from "firebase/database";
 import { rtdb } from "@/firebase";
 
@@ -21,12 +21,9 @@ export default function CollectionSpotlight() {
   const textContentRef = useRef<HTMLDivElement>(null);
 
   // State & Context
-  const context = useContext(AppContext);
+  const { addToCart } = useCart();
   const [arrangements, setArrangements] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-
-  if (!context) throw new Error("CollectionSpotlight must be used within an AppProvider");
-  const { addToCart } = context;
 
   // 2. Fetch the products from Firebase Realtime Database
   useEffect(() => {

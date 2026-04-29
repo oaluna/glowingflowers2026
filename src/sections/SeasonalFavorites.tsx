@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Plus } from "lucide-react";
-import { AppContext } from "@/AppContext";
+import { useCart } from "@/context/CartContext";
 import { ref, get } from "firebase/database";
 import { rtdb } from "@/firebase";
 
@@ -13,14 +13,11 @@ gsap.registerPlugin(ScrollTrigger);
 export default function SeasonalFavorites() {
   const [ loading, setLoading ] = useState(true);
 
-  const context = useContext(AppContext);
+  const { addToCart } = useCart();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [seasonalProducts, setSeasonalProducts] =  useState<Product[]>([]);
-
-  if (!context) throw new Error("Catalog must be used within an AppProvider");
-  const { addToCart } = context;
 
   useEffect(() => {
       const fetchSeasonalProducts = async () => {

@@ -1,17 +1,10 @@
-import React, { useContext } from "react";
-import { AppContext } from "../AppContext";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FiTrash2, FiArrowLeft } from "react-icons/fi"; // Added Trash and Arrow icons
+import { useCart } from "@/context/CartContext";
 
 const Cart: React.FC = () => {
-  const context = useContext(AppContext);
-  if (!context) throw new Error("Cart must be used within an AppProvider");
-
-  // Destructure removeFromCart from our context
-  const { cart, removeFromCart } = context;
-
-  const calculateTotal = () =>
-    cart.reduce((total, item) => total + item.price, 0);
+  const { items, removeFromCart, totalPrice } = useCart();
 
   return (
     <div className="max-w-4xl mx-auto p-6 mt-12 mb-20 animate-fade-in-up">
@@ -20,7 +13,7 @@ const Cart: React.FC = () => {
         <div className="w-12 h-0.5 bg-brandSage mx-auto"></div>
       </div>
 
-      {cart.length === 0 ? (
+      {items.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-stone-100">
           <p className="text-brandEarth/60 text-lg mb-6 italic">
             Your botanical basket is empty.
@@ -36,9 +29,9 @@ const Cart: React.FC = () => {
       ) : (
         <div className="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
           <ul className="divide-y divide-stone-100">
-            {cart.map((item, index) => (
+            {items.map((item) => (
               <li
-                key={index}
+                key={item.id}
                 className="p-6 flex justify-between items-center hover:bg-brandCream/50 transition-colors group"
               >
                 <div className="flex items-center gap-4">
@@ -51,9 +44,6 @@ const Cart: React.FC = () => {
                     <h3 className="text-xl w-48 h-24 font-semibold text-brandEarth">
                       {item.name}
                     </h3>
-                    <p id={item.id} className="text-brandSage">
-                      {cart.map((item) => (item.id ? item.id : null))}
-                    </p>
                     <p className="font-sans text-xs uppercase tracking-widest text-brandEarth/50">
                       Item #{item.id}
                     </p>
@@ -62,12 +52,12 @@ const Cart: React.FC = () => {
 
                 <div className="flex items-center gap-4">
                   <div className="text-lg font-semibold text-brandSage">
-                    ${item.price.toFixed(2)}
+                    ${(item.price * (item.quantity || 1)).toFixed(2)}
                   </div>
 
                   {/* The Remove Button */}
                   <button
-                    onClick={() => removeFromCart(index)}
+                    onClick={() => removeFromCart(item.id)}
                     className="p-2 text-stone-300 hover:text-brandRose transition-colors duration-300"
                     title="Remove item"
                   >
@@ -82,7 +72,7 @@ const Cart: React.FC = () => {
               <div className="text-xl text-brandEarth">
                 Total:{" "}
                 <span className="font-bold text-brandRose ml-2">
-                  ${calculateTotal().toFixed(2)}
+                ${totalPrice.toFixed(2)}
                 </span>
               </div>
             </div>

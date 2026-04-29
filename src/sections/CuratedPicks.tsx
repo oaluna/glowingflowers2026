@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Plus } from "lucide-react";
-import { AppContext } from "@/AppContext";
+import { useCart } from "@/context/CartContext";
 import { ref, get } from "firebase/database";
 import { rtdb } from "@/firebase";
 
@@ -11,16 +11,13 @@ import type {Product} from "@/types"
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CuratedPicks() {
-  const context = useContext(AppContext);
+  const { addToCart } = useCart();
   const [curatedProducts, setCuratedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-
-  if (!context) throw new Error("Catalog must be used within an AppProvider");
-  const { addToCart } = context;
 
   useEffect(() => {
     const fetchCuratedProducts = async () => {

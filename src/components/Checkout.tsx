@@ -1,15 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { AppContext } from "../AppContext";
+import { useCart } from "@/context/CartContext";
 import { FiLock, FiCreditCard } from "react-icons/fi";
 
 const Checkout: React.FC = () => {
-  const context = useContext(AppContext);
   const navigate = useNavigate();
 
-  if (!context) throw new Error("Checkout must be used within an AppProvider");
-
-  const { cart, clearCart } = context;
+  const { items, clearCart, totalPrice } = useCart();
 
   // Form state for payment details (simulated)
   const [paymentData, setPaymentData] = useState({
@@ -19,9 +16,7 @@ const Checkout: React.FC = () => {
     cvc: "",
   });
 
-  const calculateSubtotal = () =>
-    cart.reduce((total, item) => total + item.price, 0);
-  const subtotal = calculateSubtotal();
+  const subtotal = totalPrice;
   const tax = subtotal * 0.08; // Simulating an 8% tax rate
   const total = subtotal + tax;
 
@@ -39,7 +34,7 @@ const Checkout: React.FC = () => {
     );
 
     // Empty the cart and send them back to the home page
-    clearCart();
+    if (clearCart) clearCart();
     navigate("/");
   };
 
@@ -50,7 +45,7 @@ const Checkout: React.FC = () => {
     "text-xs font-bold font-sans uppercase tracking-widest text-brandEarth/70 block mt-5";
 
   // If they somehow get here with an empty cart, redirect them
-  if (cart.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="max-w-4xl mx-auto p-6 mt-12 mb-20 text-center animate-fade-in-up">
         <h2 className="text-3xl text-brandEarth mb-4">Your cart is empty</h2>
@@ -65,7 +60,7 @@ const Checkout: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 mt-12 mb-20 animate-fade-in-up">
+    <div className="max-w-6xl mx-auto p-6 mt-18 lg:mt-20 mb-20 animate-fade-in-up">
       <div className="text-center mb-12">
         <div className="flex items-center justify-center gap-3 mb-4">
           <FiLock className="text-3xl text-brandEarth" />
@@ -82,7 +77,7 @@ const Checkout: React.FC = () => {
           </h3>
 
           <ul className="divide-y divide-stone-200 mb-6">
-            {cart.map((item, index) => (
+        {items.map((item, index) => (
               <li
                 key={index}
                 className="py-4 flex justify-between items-center"
@@ -99,12 +94,12 @@ const Checkout: React.FC = () => {
                       {item.name}
                     </h4>
                     <p className="font-sans text-xs text-brandEarth/60 uppercase tracking-widest">
-                      Qty: 1
+                  Qty: {item.quantity || 1}
                     </p>
                   </div>
                 </div>
                 <div className="font-semibold text-brandSage">
-                  ${item.price.toFixed(2)}
+              ${(item.price * (item.quantity || 1)).toFixed(2)}
                 </div>
               </li>
             ))}
@@ -193,7 +188,7 @@ const Checkout: React.FC = () => {
 
             <button
               type="submit"
-              className="mt-10 w-full py-4 bg-brandEarth text-white font-sans text-sm font-semibold tracking-widest uppercase rounded-full hover:bg-brandRose transition-colors shadow-md"
+              className="mt-10 w-full py-4 btn-primary font-sans text-sm font-semibold tracking-widest uppercase rounded-full hover:bg-brandRose transition-colors shadow-md"
             >
               Pay ${total.toFixed(2)}
             </button>

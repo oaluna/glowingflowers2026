@@ -1,8 +1,8 @@
-// import { useState, useContext, useEffect, useRef } from "react";
+// import { useState, useEffect, useRef } from "react";
 // import gsap from "gsap";
 // import { ScrollTrigger } from "gsap/ScrollTrigger";
 // import { ChevronRight } from "lucide-react";
-// import { AppContext } from "@/AppContext";
+// import { useCart } from "@/context/CartContext";
 
 // import type { BouquetSize, BouquetPalette } from "../types";
 
@@ -26,17 +26,13 @@
 // ];
 
 // export default function BuildBouquet() {
-//   const context = useContext(AppContext);
+//   const { addToCart } = useCart();
 //   const [selectedSize, setSelectedSize] = useState<BouquetSize>("small");
 //   const [selectedPalette, setSelectedPalette] =
 //     useState<BouquetPalette>("blush");
 //   const sectionRef = useRef<HTMLElement>(null);
 //   const imageRef = useRef<HTMLDivElement>(null);
 //   const controlsRef = useRef<HTMLDivElement>(null);
-
-  
-//   if (!context) throw new Error("Catalog must be used within an AppProvider");
-//   const { addToCart } = context;
 
 
 //   const currentPrice =
@@ -180,7 +176,17 @@
 //                   $ {currentPrice}
 //                 </p>
 //               </div>
-//               <button onClick={() => addToCart(price)} className="btn-primary">
+//               <button 
+//                 onClick={() => addToCart({
+//                   id: `custom-${selectedSize}-${selectedPalette}`,
+//                   name: `Custom Bouquet (${selectedSize})`,
+//                   price: currentPrice || 0,
+//                   imgUrl: "/images/builder_palette_blush.jpg",
+//                   description: `A beautiful ${selectedSize} bouquet in a ${selectedPalette} palette.`,
+//                   category: "Custom Build"
+//                 })} 
+//                 className="btn-primary"
+//               >
 //                 Add to Cart
 //               </button>
 //             </div>

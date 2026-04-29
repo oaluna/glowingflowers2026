@@ -172,19 +172,19 @@ export default function Hero() {
         {/* Text Content */}
         <div
           ref={headlineRef}
-          className="absolute top-[12vh] lg:top-[14vh] left-1/2 -translate-x-1/2 text-center z-30 w-[90vw] lg:min-w-[52vw] lg:max-w-[720px] px-4"
+          className="flex flex-col justify-center items-center mt-[8vh] lg:top-[14vh] lg:mx-auto w-full lg:w-2/5 text-center z-30"
         >
           <img
             src={logo}
             className="w-72 h-auto mx-auto lg:w-full lg:p-12 lg:h-auto object-contain mb-4 lg:mb-6 bg-transparent"
           />
-          <h2 className="font-sans font-black text-base lg:text-4xl text-taupe-300 max-w-md mx-auto leading-relaxed">
+          <h1 className="font-sans font-black text-base lg:text-4xl text-taupe-300 max-w-md mx-auto leading-relaxed">
             Botanical Artistry, Delivered Across the Bay.
-          </h2>
+          </h1>
           <p className="font-sans font-medium lg:max-w-full lg:p-12 lg:h-auto object-contain mb-4 lg:mb-6 bg-transparent">
             From intimate moments to grand events, Glowing Flowers brings San Francisco’s freshest, most vibrant blooms directly to your door.
           </p>
-
+</div>
         </div>
 
         {/* CTA */}
@@ -196,7 +196,7 @@ export default function Hero() {
             Explore the Collection
           </a>
         </div>
-      </div>
+    
     </section>
   );
 }
